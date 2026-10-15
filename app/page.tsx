@@ -10,7 +10,7 @@ export default function HomePage() {
     { value: config.stat1Value, label: config.stat1Label },
     { value: config.stat2Value, label: config.stat2Label },
     { value: config.stat3Value, label: config.stat3Label },
-  ]
+  ].filter((stat) => stat.value.trim() || stat.label.trim())
 
   // Parse service areas for client-side validation
   let parsedServiceAreas: Array<{ id: string; centerLat: number; centerLng: number; radiusMiles: number }> = []
@@ -34,7 +34,7 @@ export default function HomePage() {
           ibuykcStyle={ibuykc}
         />
 
-        <div className="mx-auto max-w-7xl px-4 py-4 md:py-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-8 md:py-12 lg:px-8">
           {/* Hero */}
           <div className="mx-auto text-center">
             <h1 className={ibuykc ? "text-4xl font-extrabold leading-tight text-gray-900 md:text-5xl lg:text-[3.75rem] lg:leading-[1.15] text-balance" : "text-4xl font-extrabold leading-tight text-white md:text-5xl lg:text-[3.75rem] lg:leading-[1.15] text-balance"}>
@@ -43,14 +43,17 @@ export default function HomePage() {
                 <span className={ibuykc ? "text-gray-900" : "text-white/80"}> {config.headlineAccent}</span>
               )}
             </h1>
-            <p className={ibuykc ? "mt-2 md:mt-3 text-base md:text-lg text-gray-600" : "mt-2 md:mt-3 text-base md:text-lg text-white/70"}>
-              {config.subheadline}
-            </p>
+            {config.subheadline && (
+              <p className={ibuykc ? "mt-2 md:mt-3 text-base md:text-lg text-gray-600" : "mt-3 md:mt-4 text-lg md:text-xl text-white/80"}>
+                {config.subheadline}
+              </p>
+            )}
 
             {/* Trust indicators — accent-colored checkmarks */}
-            <div className="mt-3 md:mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 md:gap-5">
-              {stats.map((stat) => (
-                <div key={stat.label} className="flex items-center gap-1.5">
+            {stats.length > 0 && (
+            <div className="mt-4 md:mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 md:gap-6">
+              {stats.map((stat, i) => (
+                <div key={i} className="flex items-center gap-1.5">
                   <div
                     className={ibuykc ? "flex h-6 w-6 items-center justify-center rounded-full bg-green-500/10" : "flex h-6 w-6 items-center justify-center rounded-full"}
                     style={ibuykc ? undefined : { backgroundColor: "rgba(255,255,255,0.15)" }}
@@ -70,10 +73,11 @@ export default function HomePage() {
                 </div>
               ))}
             </div>
+            )}
           </div>
 
           {/* Survey Form */}
-          <div className="mt-4 md:mt-6 mx-auto max-w-3xl">
+          <div className="mt-6 md:mt-8 mx-auto max-w-3xl">
             <SurveyCard
               phoneDisplay={config.phoneDisplay}
               phoneHref={config.phoneHref}
@@ -88,7 +92,7 @@ export default function HomePage() {
 
           {/* Owner / Founder section — shows when ownerName or headshotUrl is set */}
           {(config.ownerName || config.headshotUrl) && (
-            <div className="mt-8 md:mt-12 mx-auto flex flex-col items-center gap-3">
+            <div className={ibuykc ? "mt-8 md:mt-12 mx-auto flex flex-col items-center gap-3" : "mt-12 md:mt-16 mx-auto flex max-w-3xl flex-col items-center gap-4"}>
               {config.headshotUrl && (
                 ibuykc ? (
                   <div className="w-full max-w-xs">
@@ -102,21 +106,23 @@ export default function HomePage() {
                     />
                   </div>
                 ) : (
-                  <div className="relative h-16 w-16 overflow-hidden rounded-full border-2" style={{ borderColor: "rgba(255,255,255,0.5)" }}>
+                  // Full-width team photo (group shot), not a 64px avatar.
+                  <div className="w-full overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/10">
                     <Image
                       src={config.headshotUrl}
                       alt={config.ownerName || config.companyName}
-                      fill
+                      width={1280}
+                      height={853}
                       unoptimized
-                      className="object-cover"
+                      className="h-auto w-full object-cover"
                     />
                   </div>
                 )
               )}
               {config.ownerName && (
                 <div className="text-center">
-                  <p className={ibuykc ? "text-base font-semibold text-gray-900" : "text-base font-semibold text-white"}>{config.ownerName}</p>
-                  <p className={ibuykc ? "text-sm text-gray-500" : "text-sm text-white/60"}>{config.companyName}</p>
+                  <p className={ibuykc ? "text-base font-semibold text-gray-900" : "text-lg font-semibold text-white"}>{config.ownerName}</p>
+                  <p className={ibuykc ? "text-sm text-gray-500" : "text-sm text-white/70"}>{config.companyName}</p>
                 </div>
               )}
             </div>
