@@ -30,10 +30,11 @@ export function Header({ companyName, phoneDisplay, phoneHref, logoUrl, headerBg
               <Image
                 src={logoUrl}
                 alt={companyName}
-                width={Math.round(LOGO_HEIGHT_PX * 4)}
+                width={Math.round(LOGO_HEIGHT_PX * 3.5)}
                 height={LOGO_HEIGHT_PX}
                 className="flex-shrink-0 object-contain w-auto"
-                style={{ height: `${LOGO_HEIGHT_PX}px` }}
+                // Cap at 12vw so the banner + "Call Now" pill fit on a 375px phone.
+                style={{ height: `min(${LOGO_HEIGHT_PX}px, 12vw)` }}
                 unoptimized
               />
             ) : (
