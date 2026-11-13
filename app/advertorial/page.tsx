@@ -18,6 +18,7 @@ export default function AdvertorialRoute() {
   } catch {}
 
   const allowedStates = config.allowedStates.split(",").map(s => s.trim()).filter(Boolean)
+  const excludedZips = config.excludedZips.split(",").map(s => s.trim()).filter(Boolean)
 
   return (
     <main className="relative min-h-screen bg-white">
@@ -31,6 +32,7 @@ export default function AdvertorialRoute() {
         headshotUrl={config.headshotUrl}
         serviceAreas={serviceAreas}
         allowedStates={allowedStates}
+        excludedZips={excludedZips}
         motivationV2={config.motivationV2}
       />
     </main>
