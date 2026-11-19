@@ -90,6 +90,8 @@ const config = {
   // to LeadLowIntent. Default false / unset → byte-identical soft-DQ behavior for
   // every existing template-linked client.
   excellentConditionPass: process.env.EXCELLENT_CONDITION_PASS === "true",
+  // SHOWROOM=1: demo site only (property-record form). Never set on a client site.
+  showroom:        process.env.SHOWROOM === "1",
 } as const
 
 export default config
